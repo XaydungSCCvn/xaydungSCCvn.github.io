@@ -67,6 +67,12 @@ body {
     font-weight: 600;
 }
 
+.nav-logo-img {
+    height: 50px;
+    width: auto;
+    border-radius: 8px;
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
