@@ -3,75 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Công Ty TNHH Xây Dựng SCC - Sửa Chữa & Cải Tạo Nhà</title>
+    <title>XaydungSCC | Công Ty TNHH Xây Dựng SCC - Sang Trọng & Chuyên Nghiệp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <h1>SCC</h1>
-                <span>Xây Dựng & Nội Thất</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Trang Chủ</a></li>
-                <li><a href="#about">Giới Thiệu</a></li>
-                <li><a href="#services">Dịch Vụ</a></li>
-                <li><a href="#projects">Dự Án</a></li>
-                <li><a href="#contact">Liên Hệ</a></li>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon"><i class="fas fa-building"></i></span>
+                <span class="logo-text">Xaydung<span class="gold">SCC</span></span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Trang Chủ</a></li>
+                <li><a href="#about" class="nav-link">Giới Thiệu</a></li>
+                <li><a href="#services" class="nav-link">Dịch Vụ</a></li>
+                <li><a href="#projects" class="nav-link">Dự Án</a></li>
+                <li><a href="#contact" class="nav-link">Liên Hệ</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
+            <a href="tel:+84" class="nav-cta">Hotline</a>
+        </div>
+    </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <h1>Công Ty TNHH Xây Dựng SCC</h1>
-            <h2>Sửa Chữa & Cải Tạo Nhà Chuyên Nghiệp</h2>
-            <p>Chúng tôi mang đến giải pháp xây dựng, sửa chữa và cải tạo nhà ở chất lượng cao tại TP.HCM</p>
+            <div class="hero-badge">
+                <i class="fas fa-award"></i>
+                <span>Chuyên Nghiệp & Uy Tín</span>
+            </div>
+            <h1 class="hero-title">
+                Kiến Tạo Không Gian<br>
+                <span class="gold">Sống Đẳng Cấp</span>
+            </h1>
+            <p class="hero-subtitle">
+                Công Ty TNHH Xây Dựng SCC - Hơn 5 năm kinh nghiệp trong lĩnh vực<br>
+                sửa chữa, cải tạo và thiết kế nội thất cao cấp tại TP.HCM
+            </p>
             <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Liên Hệ Ngay</a>
-                <a href="#services" class="btn btn-secondary">Xem Dịch Vụ</a>
+                <a href="#contact" class="btn btn-gold">Nhận Báo Giá</a>
+                <a href="#projects" class="btn btn-outline">Xem Dự Án</a>
             </div>
         </div>
-        <div class="hero-image">
-            <div class="placeholder-img">Hình ảnh công trình</div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-num">100+</span>
+                    <span class="stat-label">Dự Án Hoàn Thành</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num">5+</span>
+                    <span class="stat-label">Năm Kinh Nghiệm</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-num">98%</span>
+                    <span class="stat-label">Khách Hàng Hài Lòng</span>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <h2 class="section-title">Về Chúng Tôi</h2>
+            <div class="section-header">
+                <span class="section-subtitle">Về Chúng Tôi</span>
+                <h2 class="section-title">Công Ty TNHH<br><span class="gold">Xây Dựng SCC</span></h2>
+            </div>
             <div class="about-content">
                 <div class="about-text">
-                    <h3>Công Ty TNHH Xây Dựng SCC</h3>
-                    <p>Với nhiều năm kinh nghiệm trong lĩnh vực xây dựng và nội thất tại TP.HCM, chúng tôi tự hào là đối tác tin cậy của hàng trăm khách hàng.</p>
+                    <h3>Đối Tác Tin Cậy Trong Lĩnh Vực Xây Dựng</h3>
+                    <p>Với đội ngũ kỹ sư và thợ lành nghề giàu kinh nghiệm, chúng tôi tự hào mang đến những giải pháp xây dựng, sửa chữa và cải tạo nhà ở chất lượng cao nhất.</p>
                     <ul class="about-list">
-                        <li>✓ Chuyên sửa chữa, cải tạo nhà ở</li>
-                        <li>✓ Thiết kế và thi công nội thất</li>
-                        <li>✓ Xây dựng mới nhà phố, biệt thự</li>
-                        <li>✓ Đội ngũ thợ lành nghề, chuyên nghiệp</li>
+                        <li><i class="fas fa-check"></i> Đội ngũ thợ lành nghề, chuyên nghiệp</li>
+                        <li><i class="fas fa-check"></i> Vật liệu chất lượng, nguồn gốc rõ ràng</li>
+                        <li><i class="fas fa-check"></i> Bảo hành dài hạn, hỗ trợ 24/7</li>
+                        <li><i class="fas fa-check"></i> Giá cả cạnh tranh, minh bạch</li>
                     </ul>
                 </div>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <h4>100+</h4>
-                        <p>Dự án hoàn thành</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>5+</h4>
-                        <p>Năm kinh nghiệm</p>
-                    </div>
-                    <div class="stat-item">
-                        <h4>98%</h4>
-                        <p>Khách hàng hài lòng</p>
+                <div class="about-image">
+                    <div class="img-placeholder">
+                        <i class="fas fa-hard-hat"></i>
+                        <span>Hình công ty</span>
                     </div>
                 </div>
             </div>
@@ -81,27 +101,31 @@
     <!-- Services Section -->
     <section id="services" class="services">
         <div class="container">
-            <h2 class="section-title">Dịch Vụ Của Chúng Tôi</h2>
+            <div class="section-header light">
+                <span class="section-subtitle gold">Dịch Vụ</span>
+                <h2 class="section-title light">Giải Pháp Toàn Diện</h2>
+            </div>
             <div class="services-grid">
                 <div class="service-card">
-                    <div class="service-icon">🔧</div>
+                    <div class="service-icon"><i class="fas fa-tools"></i></div>
                     <h3>Sửa Chữa Nhà</h3>
-                    <p>Sửa chữa nhà cũ, khắc phục hư hỏng, nâng cấp cơ sở hạ tầng</p>
+                    <p>Khắc phục triệt để mọi hư hỏng, nâng cấp cơ sở hạ tầng</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">🏠</div>
+                <div class="service-card featured">
+                    <div class="service-badge">Phổ biến</div>
+                    <div class="service-icon"><i class="fas fa-home"></i></div>
                     <h3>Cải Tạo Nhà</h3>
-                    <p>Cải tạo nhà ở hiện đại, tối ưu không gian sống</p>
+                    <p>Lên ý tưởng và thực hiện cải tạo không gian sống hiện đại</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🛋️</div>
-                    <h3>Nội Thất</h3>
-                    <p>Thiết kế và thi công nội thất theo phong cách riêng</p>
+                    <div class="service-icon"><i class="fas fa-couch"></i></div>
+                    <h3>Thiết Kế Nội Thất</h3>
+                    <p>Thiết kế và thi công nội thất theo phong cách riêng, đẳng cấp</p>
                 </div>
                 <div class="service-card">
-                    <div class="service-icon">🏗️</div>
+                    <div class="service-icon"><i class="fas fa-building"></i></div>
                     <h3>Xây Dựng Mới</h3>
-                    <p>Xây dựng nhà phố, biệt thự từ A-Z</p>
+                    <p>Thi công nhà phố, biệt thự từ A-Z với quy trình chuyên nghiệp</p>
                 </div>
             </div>
         </div>
@@ -110,32 +134,41 @@
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
-            <h2 class="section-title">Dự Án Tiêu Biểu</h2>
+            <div class="section-header">
+                <span class="section-subtitle">Dự Án</span>
+                <h2 class="section-title">Công Trình Tiêu Biểu</h2>
+            </div>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-img placeholder-img">Hình dự án 1</div>
+                    <div class="project-img">
+                        <div class="img-placeholder"><i class="fas fa-image"></i></div>
+                    </div>
                     <div class="project-info">
-                        <h3>Cải Tạo Nhà Phố Quận 7</h3>
-                        <p>Sửa chữa và nâng cấp nhà 3 tầng</p>
+                        <span class="project-tag">Cải Tạo</span>
+                        <h3>Nhà Phố Quận 7</h3>
+                        <p>Sửa chữa và nâng cấp nhà 3 tầng hiện đại</p>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-img placeholder-img">Hình dự án 2</div>
+                    <div class="project-img">
+                        <div class="img-placeholder"><i class="fas fa-image"></i></div>
+                    </div>
                     <div class="project-info">
-                        <h3>Nội Thất Biệt Thự Thủ Đức</h3>
-                        <p>Thiết kế và thi công nội thất cao cấp</p>
+                        <span class="project-tag">Nội Thất</span>
+                        <h3>Biệt Thự Thủ Đức</h3>
+                        <p>Thiết kế nội thất cao cấp phong cách hiện đại</p>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-img placeholder-img">Hình dự án 3</div>
+                    <div class="project-img">
+                        <div class="img-placeholder"><i class="fas fa-image"></i></div>
+                    </div>
                     <div class="project-info">
-                        <h3>Xây Mới Nhà Phố Bình Thạnh</h3>
+                        <span class="project-tag">Xây Mới</span>
+                        <h3>Nhà Phố Bình Thạnh</h3>
                         <p>Xây dựng trọn gói nhà phố 4 tầng</p>
                     </div>
                 </div>
-            </div>
-            <div class="projects-note">
-                <p>* Hình ảnh dự án sẽ được cập nhật sau khi có ảnh thực tế</p>
             </div>
         </div>
     </section>
@@ -143,31 +176,41 @@
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <h2 class="section-title">Liên Hệ Với Chúng Tôi</h2>
-            <div class="contact-content">
+            <div class="section-header light">
+                <span class="section-subtitle gold">Liên Hệ</span>
+                <h2 class="section-title light">Kết Nối Với Chúng Tôi</h2>
+            </div>
+            <div class="contact-grid">
                 <div class="contact-info">
                     <div class="contact-item">
-                        <h3>📍 Địa Chỉ</h3>
-                        <p>TP. Hồ Chí Minh, Việt Nam</p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Địa Chỉ</h4>
+                            <p>TP. Hồ Chí Minh, Việt Nam</p>
+                        </div>
                     </div>
                     <div class="contact-item">
-                        <h3>📧 Email</h3>
-                        <p>xaydungscc23@gmail.com</p>
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>xaydungscc23@gmail.com</p>
+                        </div>
                     </div>
                     <div class="contact-item">
-                        <h3>📱 Zalo OA</h3>
-                        <p>Sửa chữa & cải tạo nhà SCC</p>
-                        <a href="#" class="btn btn-zalo">Kết nối Zalo</a>
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Hotline</h4>
+                            <p>Liên hệ Zalo OA</p>
+                        </div>
                     </div>
                 </div>
                 <div class="contact-form">
-                    <h3>Gửi Yêu Cầu Báo Giá</h3>
+                    <h3>Yêu Cầu Báo Giá</h3>
                     <form>
                         <input type="text" placeholder="Họ và tên" required>
                         <input type="tel" placeholder="Số điện thoại" required>
-                        <input type="email" placeholder="Email">
-                        <textarea placeholder="Mô tả công việc cần làm..." rows="5"></textarea>
-                        <button type="submit" class="btn btn-primary">Gửi Yêu Cầu</button>
+                        <textarea placeholder="Mô tả công việc..." rows="4"></textarea>
+                        <button type="submit" class="btn btn-gold">Gửi Yêu Cầu</button>
                     </form>
                 </div>
             </div>
@@ -175,11 +218,11 @@
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>SCC</h3>
+                <div class="footer-brand">
+                    <h3>Xaydung<span class="gold">SCC</span></h3>
                     <p>Công Ty TNHH Xây Dựng SCC</p>
                 </div>
                 <div class="footer-links">
@@ -190,7 +233,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Công Ty TNHH Xây Dựng SCC. All rights reserved.</p>
+                <p>&copy; 2026 XaydungSCC. All rights reserved.</p>
             </div>
         </div>
     </footer>
