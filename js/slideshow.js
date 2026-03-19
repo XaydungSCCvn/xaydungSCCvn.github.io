@@ -1,8 +1,8 @@
 // Hero Slideshow
 const heroImages = [
-    'images/hero-1.jpg',
-    'images/hero-2.jpg', 
-    'images/hero-3.jpg'
+    'images/PHỔI CẢNH 3D  - 160126 final-trang_page-0011.jpg',
+    'images/PHỔI CẢNH 3D  - 160126 final-trang_page-0017.jpg', 
+    'images/PHỔI CẢNH 3D  - 160126 final-trang_page-0020.jpg'
 ];
 
 let currentHeroIndex = 0;
