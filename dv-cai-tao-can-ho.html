@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cải Tạo Căn Hộ — Công Ty TNHH Xây Dựng SCC</title>
+  <meta name="description" content="Dịch vụ cải tạo căn hộ chuyên nghiệp tại TP.HCM — SCC tư vấn thiết kế, tối ưu không gian, nâng cấp nội thất và hệ thống kỹ thuật. Báo giá minh bạch, bảo hành 24 tháng.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9A96E; --gold-light: #dfc08a; --gold-dark: #a8844e;
+      --black: #1a1a1a; --deep-black: #111111; --cream: #FAFAF8;
+      --cream-dark: #f0ede7; --white: #ffffff; --gray-mid: #888;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', sans-serif;
+      --nav-h: 100px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-body); background: var(--cream); color: var(--black); overflow-x: hidden; line-height: 1.7; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    .container { width: 90%; max-width: 1280px; margin: 0 auto; }
+    #nav { position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h); z-index: 9000; background: rgba(17,17,17,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 100%; }
+    .nav-logo { display: flex; flex-direction: column; line-height: 1.1; }
+    .nav-logo-main { font-family: var(--font-heading); font-size: 37px; font-weight: 600; color: var(--white); letter-spacing: 0.12em; }
+    .nav-logo-sub { font-size: 14px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 36px; }
+    .nav-links a { font-size: 20px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.8); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { padding: 10px 28px; border: 1px solid var(--gold); color: var(--gold) !important; font-size: 19px !important; }
+    .nav-cta:hover { background: var(--gold) !important; color: var(--deep-black) !important; }
+    .service-hero { position: relative; min-height: 70vh; display: flex; align-items: center; background: var(--deep-black); overflow: hidden; padding-top: var(--nav-h); }
+    .service-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.25; }
+    .service-hero-content { position: relative; z-index: 2; padding: 80px 0; }
+    .service-tag-label { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .service-tag-line { width: 40px; height: 1px; background: var(--gold); }
+    .service-tag-text { font-size: 13px; font-weight: 500; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
+    .service-hero-title { font-family: var(--font-heading); font-size: clamp(48px, 8vw, 96px); font-weight: 300; color: var(--white); line-height: 1.05; margin-bottom: 24px; }
+    .service-hero-title em { font-style: italic; color: var(--gold-light); }
+    .service-hero-subtitle { font-size: 20px; color: rgba(255,255,255,0.6); max-width: 600px; line-height: 1.7; }
+    .breadcrumb { background: var(--deep-black); padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .breadcrumb-inner { display: flex; align-items: center; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.4); }
+    .breadcrumb-inner a { color: var(--gold); }
+    .breadcrumb-inner a:hover { text-decoration: underline; }
+    .section { padding: clamp(70px,9vw,120px) 0; }
+    .section-dark { background: var(--deep-black); }
+    .section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .section-label-line { width: 36px; height: 1px; background: var(--gold); }
+    .section-label-text { font-size: 12px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); }
+    .section-title { font-family: var(--font-heading); font-size: clamp(36px,5vw,64px); font-weight: 300; line-height: 1.1; margin-bottom: 24px; }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-title.light { color: var(--white); }
+    .problems-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; margin-top: 56px; }
+    .problem-card { background: var(--white); padding: 40px 32px; border-bottom: 3px solid transparent; transition: border-color 0.3s, transform 0.3s; }
+    .problem-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .problem-icon { width: 52px; height: 52px; background: var(--cream-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; color: var(--gold); }
+    .problem-icon svg { width: 24px; height: 24px; }
+    .problem-title { font-family: var(--font-heading); font-size: 22px; font-weight: 600; color: var(--black); margin-bottom: 12px; }
+    .problem-desc { font-size: 15px; color: #555; line-height: 1.8; }
+    .solutions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-top: 56px; }
+    .solution-item { display: flex; gap: 20px; }
+    .solution-num { font-family: var(--font-heading); font-size: 48px; font-weight: 300; color: rgba(201,169,110,0.25); line-height: 1; flex-shrink: 0; width: 56px; }
+    .solution-body { padding-top: 4px; }
+    .solution-title { font-family: var(--font-heading); font-size: 22px; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+    .solution-desc { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.8; }
+    .process-list { margin-top: 56px; }
+    .process-item { display: grid; grid-template-columns: 80px 1fr; gap: 32px; padding: 36px 0; border-bottom: 1px solid rgba(201,169,110,0.15); }
+    .process-num { font-family: var(--font-heading); font-size: 56px; font-weight: 300; color: rgba(201,169,110,0.2); line-height: 1; padding-top: 4px; }
+    .process-title { font-family: var(--font-heading); font-size: 28px; font-weight: 500; color: var(--white); margin-bottom: 10px; }
+    .process-desc { font-size: 15px; color: rgba(255,255,255,0.55); line-height: 1.8; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 2px; margin-top: 56px; }
+    .why-card { background: var(--white); padding: 40px 32px; text-align: center; transition: background 0.3s; }
+    .why-card:hover { background: var(--cream-dark); }
+    .why-card-icon { width: 60px; height: 60px; border: 1px solid var(--gold); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: var(--gold); }
+    .why-card-icon svg { width: 26px; height: 26px; }
+    .why-card-title { font-family: var(--font-heading); font-size: 22px; font-weight: 600; color: var(--black); margin-bottom: 12px; letter-spacing: 0.03em; }
+    .why-card-desc { font-size: 15px; color: #555; line-height: 1.8; }
+    .cta-section { background: var(--gold); padding: 80px 0; text-align: center; }
+    .cta-title { font-family: var(--font-heading); font-size: clamp(32px,5vw,60px); font-weight: 300; color: var(--deep-black); margin-bottom: 20px; }
+    .cta-sub { font-size: 18px; color: rgba(17,17,17,0.7); margin-bottom: 40px; }
+    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 12px; padding: 18px 36px; font-size: 15px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; transition: all 0.3s; }
+    .cta-btn-dark { background: var(--deep-black); color: var(--white); }
+    .cta-btn-dark:hover { background: #333; }
+    .cta-btn-outline { border: 2px solid var(--deep-black); color: var(--deep-black); }
+    .cta-btn-outline:hover { background: var(--deep-black); color: var(--white); }
+    footer { background: var(--deep-black); padding: 80px 0 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 56px; padding-bottom: 60px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .footer-brand-name { font-family: var(--font-heading); font-size: 48px; font-weight: 300; color: var(--white); letter-spacing: 0.2em; }
+    .footer-brand-sub { font-size: 13px; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; margin-bottom: 20px; }
+    .footer-tagline { font-family: var(--font-heading); font-size: 17px; font-style: italic; color: rgba(255,255,255,0.4); line-height: 1.8; max-width: 280px; margin-bottom: 28px; }
+    .footer-col-title { font-size: 12px; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.35); padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 20px; }
+    .footer-links-list { display: flex; flex-direction: column; gap: 10px; }
+    .footer-links-list a { font-size: 15px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+    .footer-links-list a:hover { color: var(--gold); }
+    .footer-contact-item { margin-bottom: 16px; }
+    .footer-contact-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .footer-contact-val { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+    .footer-bottom { padding: 24px 0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-copy { font-size: 13px; color: rgba(255,255,255,0.25); }
+    #float-contact { position: fixed; right: 24px; bottom: 32px; z-index: 8000; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+    .fcb { display: flex; align-items: center; gap: 10px; border-radius: 50px; padding: 12px 16px 12px 14px; color: #fff; font-family: var(--font-body); font-size: 13px; font-weight: 500; box-shadow: 0 4px 20px rgba(0,0,0,0.25); transition: transform 0.25s ease, box-shadow 0.25s ease; overflow: hidden; text-decoration: none; }
+    .fcb svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .fcb-label { max-width: 0; overflow: hidden; white-space: nowrap; transition: max-width 0.35s, opacity 0.35s; opacity: 0; }
+    .fcb:hover .fcb-label { max-width: 160px; opacity: 1; }
+    .fcb:hover { transform: translateX(-4px); }
+    .fcb-phone { background: linear-gradient(135deg,#C9A96E,#a8844e); }
+    .fcb-zalo { background: linear-gradient(135deg,#0068FF,#0047CC); }
+    .fcb-facebook { background: linear-gradient(135deg,#1877F2,#0C54D0); }
+    @media(max-width:1024px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+    @media(max-width:768px){ .nav-links{ display:none; } .footer-grid{ grid-template-columns:1fr; } .problems-grid{ grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="container nav-inner">
+    <a href="index2.html" class="nav-logo">
+      <span class="nav-logo-main">SCC</span>
+      <span class="nav-logo-sub">Construction &amp; Interior</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index2.html#about">Về Chúng Tôi</a></li>
+      <li><a href="index2.html#services">Dịch Vụ</a></li>
+      <li><a href="index2.html#projects">Dự Án</a></li>
+      <li><a href="index2.html#contact" class="nav-cta">Liên Hệ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb" style="margin-top: var(--nav-h);">
+  <div class="container breadcrumb-inner">
+    <a href="index2.html">Trang chủ</a>
+    <span>›</span>
+    <a href="index2.html#services">Dịch vụ</a>
+    <span>›</span>
+    <span>Cải Tạo Căn Hộ</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="service-hero">
+  <div class="service-hero-bg" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1600&q=80');"></div>
+  <div class="container service-hero-content">
+    <div class="service-tag-label">
+      <div class="service-tag-line"></div>
+      <span class="service-tag-text">Dịch Vụ SCC</span>
+    </div>
+    <h1 class="service-hero-title">Cải Tạo<br><em>Căn Hộ Toàn Diện</em></h1>
+    <p class="service-hero-subtitle">Biến căn hộ cũ kỹ, bố cục bất hợp lý thành không gian sống hiện đại, tiện nghi và thẩm mỹ — đúng phong cách, đúng ngân sách, đúng tiến độ.</p>
+  </div>
+</section>
+
+<!-- VẤN ĐỀ THƯỜNG GẶP -->
+<section class="section">
+  <div class="container">
+    <div class="section-label">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Vấn Đề Thường Gặp</span>
+    </div>
+    <h2 class="section-title">Khách hàng thường<br><em>gặp khó khăn gì?</em></h2>
+    <p style="font-size:18px;color:#555;max-width:600px;margin-top:16px;line-height:1.8;">Nhiều căn hộ sau 5–10 năm sử dụng xuống cấp đáng kể hoặc không còn phù hợp với nhu cầu sống hiện đại. Đây là những vướng mắc phổ biến nhất của gia chủ.</p>
+    <div class="problems-grid">
+
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="problem-title">Bố Cục Không Hợp Lý</div>
+        <p class="problem-desc">Căn hộ cũ được thiết kế theo tiêu chuẩn cũ, không gian bị chia cắt manh mún, phòng khách chật chội, thiếu ánh sáng tự nhiên. Sinh hoạt hằng ngày bất tiện nhưng không biết phải thay đổi từ đâu.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+        </div>
+        <div class="problem-title">Vật Liệu Hoàn Thiện Xuống Cấp</div>
+        <p class="problem-desc">Gạch nền cũ bị nứt vỡ, trần thạch cao bị ố vàng và phồng rộp do ẩm, sàn gỗ công nghiệp bị cong vênh bong tróc. Toàn bộ mặt nền hoàn thiện đã hết tuổi thọ, cần được thay thế đồng loạt.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <div class="problem-title">Điều Hòa &amp; Đèn Lỗi Thời</div>
+        <p class="problem-desc">Hệ thống điều hòa cũ tiêu thụ điện năng gấp đôi so với công nghệ inverter hiện đại. Đèn huỳnh quang vàng ố tạo ánh sáng kém, ảnh hưởng đến thị lực. Chi phí điện mỗi tháng cao bất thường.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        </div>
+        <div class="problem-title">Nhà Vệ Sinh &amp; Bếp Lỗi Thời</div>
+        <p class="problem-desc">Thiết bị vệ sinh bị ố vàng, sen vòi hay hỏng, tủ bếp cũ kỹ không đủ không gian lưu trữ. Khu bếp tối tăm, thiếu bếp hút mùi hiệu quả khiến không khí nặng nề mỗi khi nấu nướng.</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+        </div>
+        <div class="problem-title">Chi Phí Vượt Dự Toán</div>
+        <p class="problem-desc">Không có bản kế hoạch chi tiết trước khi khởi công, liên tục phát sinh thêm chi phí ngoài dự kiến. Ngân sách ban đầu 200 triệu cuối cùng đội lên 350 triệu vì thiếu kiểm soát từ đầu.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GIẢI PHÁP SCC -->
+<section class="section section-dark">
+  <div class="container">
+    <div class="section-label">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Giải Pháp Của SCC</span>
+    </div>
+    <h2 class="section-title light">SCC giải quyết<br><em>từng vấn đề của bạn</em></h2>
+    <div class="solutions-grid">
+
+      <div class="solution-item">
+        <div class="solution-num">01</div>
+        <div class="solution-body">
+          <div class="solution-title">Tư Vấn Tái Bố Cục Không Gian</div>
+          <p class="solution-desc">Kiến trúc sư SCC phân tích hiện trạng, đề xuất phương án tối ưu bố cục — mở rộng không gian, tăng ánh sáng tự nhiên, kết nối các khu chức năng hợp lý mà không cần phá dỡ quá nhiều.</p>
+        </div>
+      </div>
+
+      <div class="solution-item">
+        <div class="solution-num">02</div>
+        <div class="solution-body">
+          <div class="solution-title">Thay Thế Vật Liệu Đồng Bộ</div>
+          <p class="solution-desc">Lựa chọn vật liệu hoàn thiện phù hợp phong cách và ngân sách, thi công đồng bộ toàn bộ sàn, tường, trần — tạo sự thống nhất thẩm mỹ từ phòng khách đến phòng ngủ.</p>
+        </div>
+      </div>
+
+      <div class="solution-item">
+        <div class="solution-num">03</div>
+        <div class="solution-body">
+          <div class="solution-title">Nâng Cấp Hệ Thống Kỹ Thuật</div>
+          <p class="solution-desc">Cải tuyến toàn bộ điện âm tường, lắp đèn LED tiết kiệm điện, tư vấn vị trí điều hòa inverter tối ưu luồng khí. Hệ thống nước được kiểm tra và thay ống mới toàn bộ nếu cần.</p>
+        </div>
+      </div>
+
+      <div class="solution-item">
+        <div class="solution-num">04</div>
+        <div class="solution-body">
+          <div class="solution-title">Cải Tạo Bếp &amp; Vệ Sinh Hiện Đại</div>
+          <p class="solution-desc">Thiết kế lại tủ bếp thông minh với đầy đủ ngăn lưu trữ, lắp thiết bị vệ sinh thương hiệu uy tín. Không gian bếp sáng sủa, vệ sinh tiện nghi nâng cao chất lượng sinh hoạt hàng ngày.</p>
+        </div>
+      </div>
+
+      <div class="solution-item">
+        <div class="solution-num">05</div>
+        <div class="solution-body">
+          <div class="solution-title">Kiểm Soát Ngân Sách Chặt Chẽ</div>
+          <p class="solution-desc">Bản dự toán chi tiết trước khi ký hợp đồng, phân kỳ thanh toán rõ ràng theo từng đợt nghiệm thu. Cam kết không phát sinh ngoài hợp đồng — mọi điều chỉnh đều có biên bản xác nhận.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUY TRÌNH -->
+<section class="section section-dark" style="padding-top:0">
+  <div class="container">
+    <div class="section-label">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Quy Trình Thi Công</span>
+    </div>
+    <h2 class="section-title light">Từng bước<br><em>minh bạch &amp; chuyên nghiệp</em></h2>
+    <div class="process-list">
+
+      <div class="process-item">
+        <div class="process-num">01</div>
+        <div>
+          <div class="process-title">Khảo Sát &amp; Đo Đạc</div>
+          <p class="process-desc">Kỹ thuật viên đến tận nơi đo đạc chi tiết toàn bộ căn hộ, ghi nhận hiện trạng từng hạng mục — sàn, tường, trần, điện, nước. Chụp ảnh tư liệu đầy đủ làm cơ sở lập phương án cải tạo.</p>
+        </div>
+      </div>
+
+      <div class="process-item">
+        <div class="process-num">02</div>
+        <div>
+          <div class="process-title">Tư Vấn Thiết Kế</div>
+          <p class="process-desc">Kiến trúc sư trình bày phương án thiết kế bố cục, phong cách nội thất, bảng màu và vật liệu hoàn thiện. Gia chủ được xem bản vẽ 2D phối cảnh không gian trước khi quyết định để có cái nhìn trực quan nhất.</p>
+        </div>
+      </div>
+
+      <div class="process-item">
+        <div class="process-num">03</div>
+        <div>
+          <div class="process-title">Báo Giá &amp; Hợp Đồng</div>
+          <p class="process-desc">Xuất bản dự toán chi tiết từng hạng mục kèm thông số vật liệu và nhân công. Ký hợp đồng với đầy đủ điều khoản về tiến độ, chất lượng và bảo hành. Phân kỳ thanh toán hợp lý theo đợt nghiệm thu.</p>
+        </div>
+      </div>
+
+      <div class="process-item">
+        <div class="process-num">04</div>
+        <div>
+          <div class="process-title">Thi Công Theo Tiến Độ</div>
+          <p class="process-desc">Triển khai thi công theo trình tự khoa học: phá dỡ — điện nước âm tường — hoàn thiện sàn tường trần — lắp đặt thiết bị. Cập nhật tiến độ hàng ngày qua Zalo, chủ nhà có thể theo dõi từ xa.</p>
+        </div>
+      </div>
+
+      <div class="process-item">
+        <div class="process-num">05</div>
+        <div>
+          <div class="process-title">Hoàn Thiện &amp; Bàn Giao</div>
+          <p class="process-desc">Dọn dẹp vệ sinh toàn bộ sau thi công, kiểm tra vận hành từng thiết bị điện nước, hoàn thiện chi tiết cuối cùng. Bàn giao căn hộ theo biên bản nghiệm thu kèm hồ sơ bảo hành 24 tháng.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TẠI SAO CHỌN SCC -->
+<section class="section">
+  <div class="container">
+    <div class="section-label" style="justify-content:center">
+      <div class="section-label-line"></div>
+      <span class="section-label-text">Tại Sao Chọn SCC</span>
+      <div class="section-label-line"></div>
+    </div>
+    <h2 class="section-title" style="text-align:center">Khác biệt tạo nên<br><em>sự tin tưởng</em></h2>
+    <div class="why-grid">
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="why-card-title">Khảo Sát Miễn Phí</div>
+        <p class="why-card-desc">Kỹ thuật viên và kiến trúc sư đến tận nơi khảo sát, đo đạc và tư vấn thiết kế hoàn toàn miễn phí trước khi ký hợp đồng.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        </div>
+        <div class="why-card-title">Báo Giá Minh Bạch</div>
+        <p class="why-card-desc">Dự toán chi tiết từng hạng mục, cam kết không phát sinh ngoài hợp đồng. Gia chủ kiểm soát hoàn toàn ngân sách từ đầu đến cuối.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="why-card-title">Đúng Tiến Độ</div>
+        <p class="why-card-desc">Lịch thi công rõ ràng từng giai đoạn, cập nhật tiến độ hàng ngày. Cam kết bàn giao đúng ngày trong hợp đồng, hạn chế tối đa ảnh hưởng sinh hoạt.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="why-card-title">Bảo Hành 24 Tháng</div>
+        <p class="why-card-desc">Toàn bộ công trình cải tạo được bảo hành chính thức 24 tháng. Phát sinh hư hỏng do lỗi thi công — SCC xử lý miễn phí không điều kiện.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-title">Nhận Tư Vấn<br>Miễn Phí Ngay Hôm Nay</h2>
+    <p class="cta-sub">Đội ngũ SCC sẽ liên hệ trong vòng 2 giờ để khảo sát và tư vấn thiết kế miễn phí</p>
+    <div class="cta-btns">
+      <a href="tel:0379388493" class="cta-btn cta-btn-dark">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        Gọi: 0379.388.493
+      </a>
+      <a href="https://zalo.me/483931491482384485" target="_blank" class="cta-btn cta-btn-outline">
+        Chat Zalo Ngay
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">SCC</div>
+        <div class="footer-brand-sub">Construction &amp; Interior</div>
+        <p class="footer-tagline">"Kiến tạo không gian sống đẹp — từng chi tiết đều có chủ ý."</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Dịch Vụ</div>
+        <div class="footer-links-list">
+          <a href="dv-sua-chua-nha.html">Sửa Chữa Nhà Ở</a>
+          <a href="dv-cai-tao-can-ho.html">Cải Tạo Căn Hộ</a>
+          <a href="dv-noi-that.html">Thi Công Nội Thất</a>
+          <a href="dv-van-phong.html">Văn Phòng &amp; Showroom</a>
+          <a href="dv-kho-xuong.html">Kho Xưởng</a>
+          <a href="dv-san-vuon.html">Sân Vườn Cảnh Quan</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Công Ty</div>
+        <div class="footer-links-list">
+          <a href="index2.html#about">Về Chúng Tôi</a>
+          <a href="index2.html#projects">Dự Án</a>
+          <a href="index2.html#process">Quy Trình</a>
+          <a href="index2.html#contact">Liên Hệ</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Liên Hệ</div>
+        <div class="footer-contact-item"><div class="footer-contact-label">Hotline</div><div class="footer-contact-val"><a href="tel:0379388493" style="color:var(--gold)">0379.388.493</a><br><a href="tel:0914917579" style="color:var(--gold)">0914.917.579</a></div></div>
+        <div class="footer-contact-item"><div class="footer-contact-label">Email</div><div class="footer-contact-val">Xaydungscc.vn@gmail.com</div></div>
+        <div class="footer-contact-item"><div class="footer-contact-label">Địa Chỉ</div><div class="footer-contact-val">79/4 Trần Thị Vững, P.Linh Xuân<br>TP.Thủ Đức, TP.HCM</div></div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Công Ty TNHH Xây Dựng SCC · MST: 0317712630</div>
+      <div class="footer-copy"><a href="index2.html" style="color:var(--gold)">← Về Trang Chủ</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING BUTTONS -->
+<div id="float-contact">
+  <a href="tel:0379388493" class="fcb fcb-phone" title="Gọi điện">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+    <span class="fcb-label">0379.388.493</span>
+  </a>
+  <a href="https://zalo.me/483931491482384485" target="_blank" class="fcb fcb-zalo" title="Zalo">
+    <svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 2C10.06 2 2 10.06 2 20s8.06 18 18 18 18-8.06 18-18S29.94 2 20 2zm8.5 25.5c-.5.3-1.1.5-1.7.5-.6 0-1.2-.2-1.7-.5l-3.8-2.3c-.1.5-.4.9-.8 1.2-.4.3-.9.5-1.5.5H13c-1.4 0-2.5-1.1-2.5-2.5V16c0-1.4 1.1-2.5 2.5-2.5h6c.6 0 1.1.2 1.5.5.4.3.7.7.8 1.2l3.8-2.3c.5-.3 1.1-.5 1.7-.5.6 0 1.2.2 1.7.5.5.3.9.7 1.2 1.2.3.5.5 1.1.5 1.7v7.5c0 .6-.2 1.2-.5 1.7-.3.5-.7.9-1.2 1.2z"/></svg>
+    <span class="fcb-label">Chat Zalo</span>
+  </a>
+  <a href="https://facebook.com" target="_blank" class="fcb fcb-facebook" title="Facebook">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    <span class="fcb-label">Facebook</span>
+  </a>
+</div>
+
+</body>
+</html>

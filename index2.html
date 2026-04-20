@@ -1,0 +1,2952 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCC Construction — Công Ty TNHH Xây Dựng SCC</title>
+  <meta name="description" content="Công Ty TNHH Xây Dựng SCC — Sửa chữa nhà ở, cải tạo căn hộ, thi công nội thất tại TP.HCM. Khảo sát miễn phí · Báo giá minh bạch · Bảo hành 24 tháng." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* ============================================================
+       CSS CUSTOM PROPERTIES
+    ============================================================ */
+    :root {
+      --gold: #C9A96E;
+      --gold-light: #dfc08a;
+      --gold-dark: #a8844e;
+      --black: #1a1a1a;
+      --deep-black: #111111;
+      --cream: #FAFAF8;
+      --cream-dark: #f0ede7;
+      --white: #ffffff;
+      --gray-mid: #888888;
+      --gray-light: #cccccc;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Jost', sans-serif;
+      --transition-fast: 0.2s ease;
+      --transition-mid: 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --transition-slow: 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --section-pad: clamp(80px, 10vw, 140px) 0;
+      --container-max: 1320px;
+      --nav-h: 100px;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      cursor: none;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--cream);
+      color: var(--black);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    body.loading { overflow: hidden; }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    button { border: none; background: none; font-family: inherit; cursor: none; }
+    ul { list-style: none; }
+
+    .container {
+      width: 90%;
+      max-width: var(--container-max);
+      margin-inline: auto;
+    }
+
+    /* ============================================================
+       CUSTOM CURSOR
+    ============================================================ */
+    #cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+
+    #cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(201,169,110,0.6);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.35s ease, height 0.35s ease, border-color 0.35s ease, transform 0.1s linear;
+    }
+
+    body.cursor-hover #cursor-dot {
+      width: 14px; height: 14px;
+    }
+    body.cursor-hover #cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--gold);
+    }
+
+    /* ============================================================
+       PAGE LOADER
+    ============================================================ */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: var(--deep-black);
+      z-index: 100000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #loader.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: loaderFadeIn 0.8s ease forwards;
+    }
+
+    .loader-logo-text {
+      font-family: var(--font-heading);
+      font-size: clamp(40px, 8vw, 72px);
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.25em;
+      line-height: 1;
+    }
+
+    .loader-logo-sub {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .loader-line {
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      animation: loaderLine 1.2s ease 0.3s forwards;
+    }
+
+    @keyframes loaderFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes loaderLine {
+      from { width: 0; }
+      to   { width: 120px; }
+    }
+
+    /* ============================================================
+       SCROLL PROGRESS BAR
+    ============================================================ */
+    #scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 9000;
+      transition: background 0.5s ease, box-shadow 0.5s ease, backdrop-filter 0.5s ease;
+    }
+
+    #nav.scrolled {
+      background: rgba(17, 17, 17, 0.75);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: 0 1px 0 rgba(201,169,110,0.15);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .nav-logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      cursor: none;
+    }
+
+    .nav-logo-main {
+      font-family: var(--font-heading);
+      font-size: 37px;
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.12em;
+    }
+
+    .nav-logo-sub {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .nav-links a {
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      position: relative;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
+      background: var(--gold);
+      transition: width var(--transition-mid);
+    }
+
+    .nav-links a:hover { color: var(--white); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 10px 28px;
+      border: 1px solid var(--gold);
+      color: var(--gold) !important;
+      font-size: 19px !important;
+      letter-spacing: 0.2em !important;
+      transition: background var(--transition-fast), color var(--transition-fast) !important;
+    }
+
+    .nav-cta::after { display: none !important; }
+
+    .nav-cta:hover {
+      background: var(--gold) !important;
+      color: var(--deep-black) !important;
+    }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 30px; height: 1.5px;
+      background: var(--white);
+      transition: var(--transition-fast);
+    }
+
+    /* Mobile nav */
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--deep-black);
+      z-index: 8999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+
+    .nav-mobile-menu.open { display: flex; }
+
+    .nav-mobile-menu a {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.05em;
+      transition: color var(--transition-fast);
+    }
+
+    .nav-mobile-menu a:hover { color: var(--gold); }
+
+    /* ============================================================
+       HERO SECTION
+    ============================================================ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=90');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+      transition: transform 0.05s linear;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(17,17,17,0.78) 0%,
+        rgba(17,17,17,0.45) 50%,
+        rgba(17,17,17,0.35) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding-top: var(--nav-h);
+      width: 90%;
+      max-width: var(--container-max);
+      margin-inline: auto;
+    }
+
+    .hero-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.8s forwards;
+    }
+
+    .hero-eyebrow-line {
+      width: 40px; height: 1px;
+      background: var(--gold);
+    }
+
+    .hero-eyebrow-text {
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hero-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 2.0s forwards;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 300;
+    }
+
+    .hero-headline-2 {
+      font-family: var(--font-heading);
+      font-size: clamp(52px, 7.5vw, 108px);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 36px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 2.15s forwards;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-headline-2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      animation: goldLine 0.8s ease 3.2s forwards;
+    }
+
+    @keyframes goldLine {
+      to { width: 100%; }
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-heading);
+      font-size: clamp(21px, 2.6vw, 29px);
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.72);
+      max-width: 520px;
+      margin-bottom: 48px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 2.4s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 2.6s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 40px;
+      background: var(--gold);
+      color: var(--deep-black);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--white);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary:hover { color: var(--deep-black); box-shadow: 0 8px 30px rgba(201,169,110,0.35); }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 15px 40px;
+      border: 1px solid rgba(255,255,255,0.5);
+      color: var(--white);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.1);
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 3.0s forwards;
+    }
+
+    .hero-scroll-text {
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+      50% { opacity: 0.4; transform: scaleY(0.6); transform-origin: top; }
+    }
+
+    /* ============================================================
+       TICKER
+    ============================================================ */
+    #ticker {
+      background: var(--deep-black);
+      padding: 18px 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+    }
+
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: tickerScroll 30s linear infinite;
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding-right: 32px;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .ticker-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0.5;
+    }
+
+    @keyframes tickerScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ============================================================
+       GENERAL ANIMATION HELPERS
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
+    .stagger-4 { transition-delay: 0.4s; }
+    .stagger-5 { transition-delay: 0.5s; }
+
+    /* Split text */
+    .split-word {
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    .split-word-inner {
+      display: inline-block;
+      transform: translateY(100%);
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .split-text.visible .split-word-inner {
+      transform: translateY(0);
+    }
+
+    /* Section label */
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .section-label-line {
+      width: 32px; height: 1px;
+      background: var(--gold);
+    }
+
+    .section-label-text {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ============================================================
+       ABOUT SECTION
+    ============================================================ */
+    #about {
+      padding: var(--section-pad);
+      background: var(--cream);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(48px, 7vw, 100px);
+      align-items: center;
+    }
+
+    .about-images {
+      position: relative;
+      height: 580px;
+    }
+
+    .about-img-main {
+      position: absolute;
+      top: 0; left: 0;
+      width: 78%;
+      height: 480px;
+      object-fit: cover;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+    }
+
+    .about-img-accent {
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 56%;
+      height: 320px;
+      object-fit: cover;
+      border: 6px solid var(--cream);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .about-img-badge {
+      position: absolute;
+      bottom: 80px; left: -20px;
+      background: var(--gold);
+      color: var(--deep-black);
+      padding: 20px 24px;
+      z-index: 2;
+      box-shadow: 0 10px 40px rgba(201,169,110,0.4);
+    }
+
+    .about-img-badge-num {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .about-img-badge-text {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    .about-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 4vw, 54px);
+      font-weight: 400;
+      line-height: 1.18;
+      color: var(--deep-black);
+      margin-bottom: 24px;
+    }
+
+    .about-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .about-body {
+      font-size: 20px;
+      font-weight: 300;
+      color: #555;
+      line-height: 1.85;
+      margin-bottom: 36px;
+    }
+
+    .about-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .about-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border: 1px solid rgba(201,169,110,0.4);
+      font-size: 17px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--black);
+      transition: background var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .about-pill:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--deep-black);
+    }
+
+    .about-pill-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 42px;
+      font-weight: 600;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+
+    .stat-suffix {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-top: 6px;
+      display: block;
+    }
+
+    /* ============================================================
+       SERVICES SECTION
+    ============================================================ */
+    #services {
+      background: var(--deep-black);
+      padding: var(--section-pad);
+      overflow: hidden;
+    }
+
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+    }
+
+    .services-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.1;
+    }
+
+    .services-headline strong {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .services-scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .services-scroll-hint svg {
+      opacity: 0.5;
+    }
+
+    .services-track-wrap {
+      position: relative;
+    }
+
+    .services-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
+      padding-bottom: 20px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+    }
+
+    .services-track:active { cursor: grabbing; }
+    .services-track::-webkit-scrollbar { display: none; }
+
+    .service-card {
+      min-width: 380px;
+      max-width: 380px;
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 44px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition-mid), background var(--transition-mid);
+    }
+
+    .service-card:hover {
+      border-color: rgba(201,169,110,0.4);
+      background: rgba(201,169,110,0.05);
+    }
+
+    .service-card-num {
+      font-family: var(--font-heading);
+      font-size: 100px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      position: absolute;
+      top: 20px; right: 20px;
+      user-select: none;
+    }
+
+    .service-card-icon {
+      width: 48px; height: 48px;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .service-card:hover .service-card-icon {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.12);
+    }
+
+    .service-card-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .service-card-name {
+      font-family: var(--font-heading);
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--white);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .service-card-desc {
+      font-size: 17px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+
+    .service-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .service-tag {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border: 1px solid rgba(201,169,110,0.25);
+      color: var(--gold);
+    }
+
+    /* ============================================================
+       PROJECTS SECTION
+    ============================================================ */
+    #projects {
+      padding: var(--section-pad);
+      background: var(--cream);
+    }
+
+    .projects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 56px;
+    }
+
+    .projects-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--deep-black);
+    }
+
+    .projects-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .view-all-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--black);
+      border-bottom: 1px solid var(--black);
+      padding-bottom: 4px;
+      transition: color var(--transition-fast), border-color var(--transition-fast);
+    }
+
+    .view-all-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 16px;
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      background: #222;
+    }
+
+    .project-card:nth-child(1) {
+      grid-column: 1 / 8;
+      grid-row: 1 / 3;
+      height: 580px;
+    }
+
+    .project-card:nth-child(2) {
+      grid-column: 8 / 13;
+      grid-row: 1 / 2;
+      height: 280px;
+    }
+
+    .project-card:nth-child(3) {
+      grid-column: 8 / 13;
+      grid-row: 2 / 3;
+      height: 280px;
+    }
+
+    .project-card:nth-child(4) {
+      grid-column: 1 / 5;
+      height: 300px;
+    }
+
+    .project-card:nth-child(5) {
+      grid-column: 5 / 9;
+      height: 300px;
+    }
+
+    .project-card:nth-child(6) {
+      grid-column: 9 / 13;
+      height: 300px;
+    }
+
+    .project-card:nth-child(7) {
+      grid-column: 1 / 5;
+      height: 300px;
+    }
+
+    .project-card:nth-child(8) {
+      grid-column: 5 / 9;
+      height: 300px;
+    }
+
+    .project-card:nth-child(9) {
+      grid-column: 9 / 13;
+      height: 300px;
+    }
+
+    .project-card:nth-child(10) {
+      grid-column: 1 / 5;
+      height: 300px;
+    }
+
+    .project-card:nth-child(11) {
+      grid-column: 5 / 9;
+      height: 300px;
+    }
+
+    .project-card:nth-child(12) {
+      grid-column: 9 / 13;
+      height: 300px;
+    }
+
+    .project-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .project-card:hover .project-img {
+      transform: scale(1.07);
+    }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(17,17,17,0.92) 0%, rgba(17,17,17,0.3) 50%, transparent 100%);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      display: flex;
+      align-items: flex-end;
+      padding: 32px;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border: 0px solid var(--gold);
+      transition: border-width 0.3s ease;
+      pointer-events: none;
+    }
+
+    .project-card:hover::after {
+      border-width: 2px;
+    }
+
+    .project-info {}
+
+    .project-category {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .project-name {
+      font-family: var(--font-heading);
+      font-size: 29px;
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .project-card:nth-child(1) .project-name {
+      font-size: 39px;
+    }
+
+    .project-location {
+      font-size: 17px;
+      color: rgba(255,255,255,0.55);
+      margin-top: 6px;
+    }
+
+    /* ============================================================
+       PROCESS SECTION
+    ============================================================ */
+    #process {
+      background: var(--deep-black);
+      padding: var(--section-pad);
+    }
+
+    .process-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .process-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 300;
+      color: var(--white);
+      margin-top: 16px;
+    }
+
+    .process-headline strong {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .process-steps {
+      max-width: 840px;
+      margin-inline: auto;
+    }
+
+    .process-step {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+
+    .process-step:last-child {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .process-step-header {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 28px 0;
+      cursor: none;
+      user-select: none;
+    }
+
+    .process-step-num {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.15);
+      line-height: 1;
+      min-width: 60px;
+      transition: color var(--transition-fast);
+    }
+
+    .process-step.active .process-step-num {
+      color: var(--gold);
+    }
+
+    .process-step-title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--white);
+      flex: 1;
+    }
+
+    .process-step-toggle {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .process-step.active .process-step-toggle {
+      border-color: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    .process-step-toggle svg {
+      width: 14px; height: 14px;
+      stroke: rgba(255,255,255,0.6);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+    }
+
+    .process-step.active .process-step-toggle svg {
+      stroke: var(--gold);
+    }
+
+    .process-step-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .process-step.active .process-step-body {
+      max-height: 200px;
+    }
+
+    .process-step-content {
+      padding: 0 0 28px 92px;
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.8;
+    }
+
+    /* ============================================================
+       WHY US SECTION
+    ============================================================ */
+    #why-us {
+      padding: var(--section-pad);
+      background: var(--cream);
+    }
+
+    .why-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .why-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 4.5vw, 60px);
+      font-weight: 400;
+      color: var(--deep-black);
+      margin-top: 16px;
+    }
+
+    .why-headline em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .why-card {
+      background: var(--white);
+      padding: 44px 32px;
+      border: 1px solid rgba(0,0,0,0.07);
+      transition: transform var(--transition-mid), box-shadow var(--transition-mid), border-color var(--transition-mid);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 3px;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transition-mid);
+    }
+
+    .why-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      border-color: transparent;
+    }
+
+    .why-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .why-icon {
+      width: 56px; height: 56px;
+      margin-bottom: 28px;
+    }
+
+    .why-icon svg {
+      width: 100%; height: 100%;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .why-title {
+      font-family: var(--font-heading);
+      font-size: 29px;
+      font-weight: 600;
+      color: var(--deep-black);
+      margin-bottom: 12px;
+    }
+
+    .why-desc {
+      font-size: 18px;
+      font-weight: 300;
+      color: #666;
+      line-height: 1.8;
+    }
+
+    /* ============================================================
+       CONTACT SECTION
+    ============================================================ */
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+
+    .contact-left {
+      background: var(--deep-black);
+      padding: clamp(60px, 8vw, 110px) clamp(40px, 6vw, 90px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-left-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=900&q=85');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.12;
+    }
+
+    .contact-left-content { position: relative; z-index: 1; }
+
+    .contact-headline {
+      font-family: var(--font-heading);
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 36px;
+    }
+
+    .contact-headline strong {
+      font-weight: 600;
+      color: var(--gold);
+    }
+
+    .contact-info-items {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .contact-info-icon {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,169,110,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .contact-info-icon svg {
+      width: 16px; height: 16px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .contact-info-label {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .contact-info-value {
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+    }
+
+    .contact-info-value a {
+      color: inherit;
+      transition: color var(--transition-fast);
+    }
+
+    .contact-info-value a:hover { color: var(--gold); }
+
+    .contact-right {
+      background: var(--white);
+      padding: clamp(60px, 8vw, 110px) clamp(40px, 6vw, 90px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-form-title {
+      font-family: var(--font-heading);
+      font-size: 38px;
+      font-weight: 500;
+      color: var(--deep-black);
+      margin-bottom: 36px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--black);
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px 18px;
+      background: var(--cream);
+      border: 2px solid var(--cream-dark);
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--deep-black);
+      outline: none;
+      transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+      cursor: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,169,110,0.12);
+      outline: none;
+    }
+
+    .form-group textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 20px 40px;
+      width: 100%;
+      background: var(--deep-black);
+      color: var(--white);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: none;
+      transition: background var(--transition-fast), box-shadow var(--transition-fast);
+      margin-top: 12px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid transparent;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: translateX(-101%);
+      transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .btn-submit:hover::before { transform: translateX(0); }
+    .btn-submit:hover { color: var(--deep-black); box-shadow: 0 8px 30px rgba(201,169,110,0.35); }
+    .btn-submit span { position: relative; z-index: 1; }
+
+    #form-message {
+      margin-top: 14px;
+      font-size: 13px;
+      font-weight: 400;
+      min-height: 20px;
+      transition: opacity 0.3s;
+    }
+
+    #form-message.success { color: #4caf50; }
+    #form-message.error { color: #f44336; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    #footer {
+      background: var(--deep-black);
+      padding: 80px 0 40px;
+      border-top: 1px solid rgba(201,169,110,0.15);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 60px;
+    }
+
+    .footer-brand-logo {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--white);
+      letter-spacing: 0.15em;
+      margin-bottom: 4px;
+    }
+
+    .footer-brand-sub {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-heading);
+      font-size: 23px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: 14px;
+    }
+
+    .footer-social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+    }
+
+    .footer-social-btn:hover {
+      border-color: var(--gold);
+      background: rgba(201,169,110,0.1);
+    }
+
+    .footer-social-btn svg {
+      width: 15px; height: 15px;
+      stroke: rgba(255,255,255,0.6);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .footer-col-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .footer-col-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer-col-list li a {
+      font-size: 18px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.55);
+      transition: color var(--transition-fast);
+    }
+
+    .footer-col-list li a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.3);
+    }
+
+    .footer-mst {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.05em;
+    }
+
+    /* ============================================================
+       FLOATING CONTACT BAR (MOBILE)
+    ============================================================ */
+    #float-bar {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 8000;
+      background: var(--deep-black);
+      border-top: 1px solid rgba(201,169,110,0.3);
+      padding: 12px 20px;
+    }
+
+    .float-bar-inner {
+      display: flex;
+      gap: 12px;
+    }
+
+    .float-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .float-btn-zalo {
+      background: #0068ff;
+      color: var(--white);
+    }
+
+    .float-btn-call {
+      background: var(--gold);
+      color: var(--deep-black);
+    }
+
+    .float-btn svg {
+      width: 18px; height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ============================================================
+       MAGNETIC BUTTON WRAPPER
+    ============================================================ */
+    .magnetic-wrap {
+      display: inline-block;
+      position: relative;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 1100px) {
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-images { height: 400px; margin-bottom: 40px; }
+      .projects-grid { display: block; }
+      .project-card { height: 280px !important; width: 100%; margin-bottom: 12px; grid-column: unset !important; grid-row: unset !important; }
+      #contact { grid-template-columns: 1fr; }
+      .services-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .service-card { min-width: 300px; max-width: 300px; }
+      .projects-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+    }
+
+    @media (max-width: 768px) {
+      :root { --nav-h: 64px; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      html { cursor: auto; }
+      #cursor-dot, #cursor-ring { display: none; }
+      #float-bar { display: block; }
+      body { padding-bottom: 64px; }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .form-row { grid-template-columns: 1fr; }
+      .process-step-content { padding-left: 0; }
+      .hero-ctas { flex-direction: column; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+      .about-stats { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .about-img-badge { display: none; }
+      .hero-scroll-indicator { display: none; }
+    }
+
+    /* FLOATING CONTACT BUTTONS */
+    #float-contact {
+      position: fixed;
+      right: 24px;
+      bottom: 32px;
+      z-index: 8000;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+    .fcb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 50px;
+      padding: 12px 16px 12px 14px;
+      color: #fff;
+      font-family: 'Jost', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease;
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .fcb svg { width: 22px; height: 22px; flex-shrink: 0; }
+    .fcb-label {
+      max-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: max-width 0.35s ease, opacity 0.35s ease;
+      opacity: 0;
+      font-size: 13px;
+    }
+    .fcb:hover .fcb-label { max-width: 160px; opacity: 1; }
+    .fcb:hover { transform: translateX(-4px); box-shadow: 0 6px 28px rgba(0,0,0,0.35); }
+    .fcb-phone { background: linear-gradient(135deg, #C9A96E, #a8844e); }
+    .fcb-zalo  { background: linear-gradient(135deg, #0068FF, #0047CC); }
+    .fcb-facebook { background: linear-gradient(135deg, #1877F2, #0C54D0); }
+    @media (max-width: 768px) {
+      #float-contact { right: 16px; bottom: 20px; gap: 10px; }
+      .fcb { padding: 11px 13px; }
+      .fcb-label { display: none; }
+    }
+
+    /* SERVICE CARD LINKS */
+    a.service-card-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+    a.service-card-link .service-card::after {
+      content: 'Xem chi tiết →';
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateX(-6px);
+    }
+    a.service-card-link:hover .service-card::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* PROJECT CARD AS LINK */
+    a.project-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+  </style>
+</head>
+
+<body class="loading">
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- SCROLL PROGRESS -->
+  <div id="scroll-progress"></div>
+
+  <!-- PAGE LOADER -->
+  <div id="loader">
+    <div class="loader-logo">
+      <div class="loader-logo-text">SCC</div>
+      <div class="loader-logo-sub">Construction &amp; Interior</div>
+    </div>
+    <div class="loader-line"></div>
+  </div>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav id="nav">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">
+        <span class="nav-logo-main">SCC</span>
+        <span class="nav-logo-sub">Construction &amp; Interior</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">Về Chúng Tôi</a></li>
+        <li><a href="#services">Dịch Vụ</a></li>
+        <li><a href="#projects">Dự Án</a></li>
+        <li><a href="#process">Quy Trình</a></li>
+        <li><a href="#contact" class="nav-cta">Liên Hệ</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="nav-mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="closeMobileMenu()">Về Chúng Tôi</a>
+    <a href="#services" onclick="closeMobileMenu()">Dịch Vụ</a>
+    <a href="#projects" onclick="closeMobileMenu()">Dự Án</a>
+    <a href="#process" onclick="closeMobileMenu()">Quy Trình</a>
+    <a href="#why-us" onclick="closeMobileMenu()">Tại Sao Chọn SCC</a>
+    <a href="#contact" onclick="closeMobileMenu()">Liên Hệ</a>
+  </div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Xây Dựng · Nội Thất · Cải Tạo · TP.HCM</span>
+      </div>
+      <h1 class="hero-headline"><em>Kiến Tạo</em></h1>
+      <h1 class="hero-headline-2">Không Gian Sống Đẹp</h1>
+      <p class="hero-subtitle">Chúng tôi biến mỗi không gian thành một tác phẩm — nơi thiết kế gặp gỡ chức năng, và nghệ thuật sống đọng lại trong từng góc nhỏ.</p>
+      <div class="hero-ctas">
+        <div class="magnetic-wrap">
+          <a href="#projects" class="btn-primary"><span>Xem Dự Án</span></a>
+        </div>
+        <div class="magnetic-wrap">
+          <a href="#contact" class="btn-outline">Khảo Sát Miễn Phí</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span class="hero-scroll-text">Cuộn xuống</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TICKER
+  ============================================================ -->
+  <div id="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <!-- Duplicated for seamless loop -->
+      <div class="ticker-item">Sửa Chữa Nhà Ở <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Cải Tạo Căn Hộ <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Thi Công Nội Thất <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Văn Phòng · Showroom <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Kho Xưởng <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Sân Vườn Cảnh Quan <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Khảo Sát Miễn Phí <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Bảo Hành 24 Tháng <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Báo Giá Minh Bạch <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Sửa Chữa Nhà Ở <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Cải Tạo Căn Hộ <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Thi Công Nội Thất <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Văn Phòng · Showroom <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Kho Xưởng <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Sân Vườn Cảnh Quan <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Khảo Sát Miễn Phí <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Bảo Hành 24 Tháng <span class="ticker-dot"></span></div>
+      <div class="ticker-item">Báo Giá Minh Bạch <span class="ticker-dot"></span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <!-- Images -->
+        <div class="about-images reveal-left">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=85"
+               alt="SCC Interior Design" class="about-img-main" />
+          <img src="scc-readingq-library.jpg"
+               alt="Reading Q Library - SCC Project" class="about-img-accent" />
+          <div class="about-img-badge">
+            <div class="about-img-badge-num">5+</div>
+            <div class="about-img-badge-text">Năm kinh nghiệm</div>
+          </div>
+        </div>
+        <!-- Content -->
+        <div class="about-content reveal-right">
+          <div class="section-label">
+            <div class="section-label-line"></div>
+            <span class="section-label-text">Về Chúng Tôi</span>
+          </div>
+          <h2 class="about-headline split-text">
+            Đội ngũ tâm huyết,<br /><em>thi công chuẩn mực</em>
+          </h2>
+          <p class="about-body">
+            Công Ty TNHH Xây Dựng SCC được thành lập với sứ mệnh mang đến những không gian sống đẹp, chất lượng và bền vững cho từng gia đình tại TP.HCM. Chúng tôi tin rằng mỗi công trình không chỉ là tổ hợp vật liệu — mà là câu chuyện của người sống trong đó.
+          </p>
+          <p class="about-body" style="margin-top:-16px">
+            Với đội ngũ kỹ sư và kiến trúc sư giàu kinh nghiệm, quy trình thi công minh bạch và cam kết bảo hành 24 tháng, SCC là đối tác đáng tin cậy cho mọi dự án từ sửa chữa nhỏ đến cải tạo toàn bộ công trình.
+          </p>
+          <div class="about-pills">
+            <div class="about-pill"><span class="about-pill-dot"></span>Khảo sát miễn phí</div>
+            <div class="about-pill"><span class="about-pill-dot"></span>Báo giá minh bạch</div>
+            <div class="about-pill"><span class="about-pill-dot"></span>Bảo hành 24 tháng</div>
+            <div class="about-pill"><span class="about-pill-dot"></span>Tư vấn tận tâm</div>
+          </div>
+          <div class="about-stats">
+            <div class="stat-item">
+              <span class="stat-num" data-target="200"><span class="count-num">0</span><span class="stat-suffix">+</span></span>
+              <span class="stat-label">Dự án hoàn thành</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" data-target="5"><span class="count-num">0</span><span class="stat-suffix">+</span></span>
+              <span class="stat-label">Năm kinh nghiệm</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num" data-target="24"><span class="count-num">0</span><span class="stat-suffix">T</span></span>
+              <span class="stat-label">Bảo hành</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SERVICES
+  ============================================================ -->
+  <section id="services">
+    <div class="container">
+      <div class="services-header reveal">
+        <div>
+          <div class="section-label">
+            <div class="section-label-line"></div>
+            <span class="section-label-text">Dịch Vụ</span>
+          </div>
+          <h2 class="services-headline">Giải Pháp<br /><strong>Toàn Diện</strong></h2>
+        </div>
+        <div class="services-scroll-hint">
+          <svg width="24" height="12" viewBox="0 0 24 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M0 6h20M15 1l5 5-5 5"/></svg>
+          <span>Kéo để xem thêm</span>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="services-track" id="servicesTrack">
+        <!-- Card 1 -->
+        <a href="dv-sua-chua-nha.html" class="service-card-link">
+        <div class="service-card reveal stagger-1">
+          <div class="service-card-num">01</div>
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <h3 class="service-card-name">Sửa Chữa Nhà Ở</h3>
+          <p class="service-card-desc">Sửa chữa, cải tạo nhà ở dân dụng từ nhỏ đến lớn. Xử lý thấm dột, nứt tường, nâng cấp điện nước, lát gạch sàn và hoàn thiện nội thất.</p>
+          <div class="service-tags">
+            <span class="service-tag">Thấm dột</span>
+            <span class="service-tag">Điện nước</span>
+            <span class="service-tag">Hoàn thiện</span>
+          </div>
+        </div>
+        </a>
+        <!-- Card 2 -->
+        <a href="dv-cai-tao-can-ho.html" class="service-card-link">
+        <div class="service-card reveal stagger-2">
+          <div class="service-card-num">02</div>
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <h3 class="service-card-name">Cải Tạo Căn Hộ</h3>
+          <p class="service-card-desc">Thiết kế và thi công cải tạo toàn bộ căn hộ chung cư. Tối ưu không gian, cải thiện ánh sáng tự nhiên và nâng tầm giá trị bất động sản.</p>
+          <div class="service-tags">
+            <span class="service-tag">Chung cư</span>
+            <span class="service-tag">Thiết kế</span>
+            <span class="service-tag">Tối ưu KG</span>
+          </div>
+        </div>
+        </a>
+        <!-- Card 3 -->
+        <a href="dv-noi-that.html" class="service-card-link">
+        <div class="service-card reveal stagger-3">
+          <div class="service-card-num">03</div>
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+          </div>
+          <h3 class="service-card-name">Thi Công Nội Thất</h3>
+          <p class="service-card-desc">Thi công nội thất theo bản vẽ thiết kế. Từ hệ tủ âm tường, bếp, phòng ngủ đến phòng khách — sử dụng vật liệu cao cấp, thi công tỉ mỉ.</p>
+          <div class="service-tags">
+            <span class="service-tag">Nội thất gỗ</span>
+            <span class="service-tag">Tủ bếp</span>
+            <span class="service-tag">Phòng ngủ</span>
+          </div>
+        </div>
+        </a>
+        <!-- Card 4 -->
+        <a href="dv-van-phong.html" class="service-card-link">
+        <div class="service-card reveal stagger-4">
+          <div class="service-card-num">04</div>
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+          </div>
+          <h3 class="service-card-name">Văn Phòng &amp; Showroom</h3>
+          <p class="service-card-desc">Thiết kế và xây dựng không gian thương mại, văn phòng làm việc, showroom trưng bày sản phẩm theo phong cách hiện đại, chuyên nghiệp.</p>
+          <div class="service-tags">
+            <span class="service-tag">Văn phòng</span>
+            <span class="service-tag">Showroom</span>
+            <span class="service-tag">Thương mại</span>
+          </div>
+        </div>
+        </a>
+        <!-- Card 5 -->
+        <a href="dv-kho-xuong.html" class="service-card-link">
+        <div class="service-card reveal stagger-5">
+          <div class="service-card-num">05</div>
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/><path d="M3 9v13h6"/><path d="M21 9v13h-6"/></svg>
+          </div>
+          <h3 class="service-card-name">Kho Xưởng</h3>
+          <p class="service-card-desc">Xây dựng kho bãi, nhà xưởng công nghiệp với kết cấu thép tiền chế hoặc bê tông, đáp ứng tiêu chuẩn PCCC và an toàn lao động.</p>
+          <div class="service-tags">
+            <span class="service-tag">Kết cấu thép</span>
+            <span class="service-tag">PCCC</span>
+            <span class="service-tag">Công nghiệp</span>
+          </div>
+        </div>
+        </a>
+        <!-- Card 6 -->
+        <a href="dv-san-vuon.html" class="service-card-link">
+        <div class="service-card reveal">
+          <div class="service-card-num">06</div>
+          <div class="service-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3 class="service-card-name">Sân Vườn Cảnh Quan</h3>
+          <p class="service-card-desc">Thi công sân vườn, cảnh quan ngoại thất: lát đá, tiểu cảnh, hồ nước, hệ thống tưới tự động và trồng cây xanh theo phong cách Á Đông hoặc hiện đại.</p>
+          <div class="service-tags">
+            <span class="service-tag">Tiểu cảnh</span>
+            <span class="service-tag">Hồ nước</span>
+            <span class="service-tag">Cây xanh</span>
+          </div>
+        </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROJECTS SHOWCASE
+  ============================================================ -->
+  <section id="projects">
+    <div class="container">
+      <div class="projects-header">
+        <div>
+          <div class="section-label reveal">
+            <div class="section-label-line"></div>
+            <span class="section-label-text">Dự Án Tiêu Biểu</span>
+          </div>
+          <h2 class="projects-headline reveal">
+            Những Công Trình<br /><em>Tiêu Biểu</em>
+          </h2>
+        </div>
+        <a href="#contact" class="view-all-link reveal">
+          Xem tất cả &rarr;
+        </a>
+      </div>
+      <div class="projects-grid">
+
+        <!-- 1: Vinhomes -->
+        <a href="du-an-vinhomes.html" class="project-card reveal stagger-1">
+          <img src="../Hình Ảnh Thi Công/Thi cong moi Biet Thu Vinhomes Grand Park/z7186586972455_7148e78e84b5de869c7995f074efa414.jpg" alt="Biệt Thự Vinhomes Grand Park" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Xây Mới · Biệt Thự · 2024</div>
+            <div class="project-name">Biệt Thự Vinhomes Grand Park</div>
+            <div class="project-location">Quận 9 · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 2: Reading Q Hoàn Thiện -->
+        <a href="du-an-readingq-hoanthien.html" class="project-card reveal stagger-2">
+          <img src="../Hình Ảnh Thi Công/Thi Cong Noi That Trung Tam Tieng Anh - Reading Q/Hình Hoàn Thiện/z6444232760067_a4373c97bd3095f691454ad30bdfcc32.jpg" alt="Reading Q Library" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Nội Thất Hoàn Thiện · 2024</div>
+            <div class="project-name">Reading Q &amp; Library</div>
+            <div class="project-location">Vinhomes Grand Park · Q.9</div>
+          </div></div>
+        </a>
+
+        <!-- 3: Reading Q Thi Công -->
+        <a href="du-an-readingq-thicong.html" class="project-card reveal stagger-3">
+          <img src="../Hình Ảnh Thi Công/Thi Cong Noi That Trung Tam Tieng Anh - Reading Q/z7186586791666_5c6e417b49e0c2e36626efff3f899baa.jpg" alt="Reading Q Thi Công" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Thi Công Nội Thất · 2024</div>
+            <div class="project-name">Reading Q — Thi Công</div>
+            <div class="project-location">Quá trình xây dựng · Q.9</div>
+          </div></div>
+        </a>
+
+        <!-- 4: Himlam -->
+        <a href="du-an-himlam.html" class="project-card reveal stagger-1">
+          <img src="../Hình Ảnh Thi Công/Thi Cong noi That Chung Cu Himlam Phu Dong/z7186614442463_2eec9b6150568602ef29dcfb3b3bf7d2.jpg" alt="Himlam Phú Đông" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Thi Công Nội Thất · 2024</div>
+            <div class="project-name">Chung Cư Himlam Phú Đông</div>
+            <div class="project-location">Dĩ An · Bình Dương</div>
+          </div></div>
+        </a>
+
+        <!-- 5: Thu Thiem Dragon -->
+        <a href="du-an-thuhiem.html" class="project-card reveal stagger-2">
+          <img src="../Hình Ảnh Thi Công/Thi Cong Fitout Can Ho Chung Cu Thu Thiem Dragon/z7186623656273_96302d8016ea42f0350e973254914503.jpg" alt="Thu Thiem Dragon" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Fitout Căn Hộ · 2024</div>
+            <div class="project-name">Chung Cư Thủ Thiêm Dragon</div>
+            <div class="project-location">Quận 2 · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 6: Sân Vườn Q2 -->
+        <a href="du-an-sanvuon-q2.html" class="project-card reveal stagger-3">
+          <img src="../Hình Ảnh Thi Công/Thi Cong San Vuon Biet Thu Quan 2/z7186623712115_441714141267be8e12d3927a62fcf8bd.jpg" alt="Sân Vườn Biệt Thự Q2" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Sân Vườn Cảnh Quan · 2024</div>
+            <div class="project-name">Sân Vườn Biệt Thự Quận 2</div>
+            <div class="project-location">Quận 2 · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 7: Nhà Chú Sáu -->
+        <a href="du-an-nhachusau.html" class="project-card reveal stagger-1">
+          <img src="../Hình Ảnh Thi Công/Thi Cong Xay Moi Nha Chu Sau- Binh Chanh/z7186568093434_3f16ca1218ace37b5fd376c3f5b81188.jpg" alt="Nhà Chú Sáu Bình Chánh" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Xây Mới · Nhà Ở · 2024</div>
+            <div class="project-name">Nhà Chú Sáu — Bình Chánh</div>
+            <div class="project-location">Bình Chánh · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 8: Biệt Thự Q1 -->
+        <a href="du-an-bietthu-q1.html" class="project-card reveal stagger-2">
+          <img src="../Hình Ảnh Thi Công/Cai Tao Biet Thu 02 Nguyen Thanh Y-Q1/z7398399223083_39af098ee684cfc8705d0b9f3a643888.jpg" alt="Biệt Thự Q1" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Cải Tạo Biệt Thự · 2025</div>
+            <div class="project-name">Biệt Thự 02 Nguyễn Thành Ý</div>
+            <div class="project-location">Quận 1 · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 9: Chi Thuy -->
+        <a href="du-an-chithuy.html" class="project-card reveal stagger-3">
+          <img src="../Hình Ảnh Thi Công/Cai Tao Nha Chi Thuy- Binh Quoi/z7186623810884_2414264e47c9569cc95363a7b9eed244.jpg" alt="Nhà Chị Thủy Bình Quới" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Cải Tạo Nhà Ở · 2024</div>
+            <div class="project-name">Nhà Chị Thủy — Bình Quới</div>
+            <div class="project-location">Bình Thạnh · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 10: Chu Thong -->
+        <a href="du-an-chuthong.html" class="project-card reveal stagger-1">
+          <img src="../Hình Ảnh Thi Công/Cai Tao Nha Chu Thong  -Thu Duc/z7186608521715_90e114d3660dc03640e2b0eaf57c187f.jpg" alt="Nhà Chú Thống Thủ Đức" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Cải Tạo Nhà Ở · 2024</div>
+            <div class="project-name">Nhà Chú Thống — Thủ Đức</div>
+            <div class="project-location">TP.Thủ Đức · TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 11: Jotun -->
+        <a href="du-an-jotun.html" class="project-card reveal stagger-2">
+          <img src="../Hình Ảnh Thi Công/Cai tao khu nha ADmin - Nha may son Jotun/z7186608679187_f390e639b416360a50264257c320a6c9.jpg" alt="Nhà Máy Jotun" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Công Trình Công Nghiệp · 2024</div>
+            <div class="project-name">Khu Admin Nhà Máy Sơn Jotun</div>
+            <div class="project-location">TP.HCM</div>
+          </div></div>
+        </a>
+
+        <!-- 12: Mầm Non Hoa Hồng -->
+        <a href="du-an-mamnonhoahong.html" class="project-card reveal stagger-3">
+          <img src="../Hình Ảnh Thi Công/Khao Sat Cai Tao Truong Mam Non Hoa Hong 3/z7223457306467_2567403dceb51829e939c1f387858501.jpg" alt="Mầm Non Hoa Hồng 3" class="project-img" />
+          <div class="project-overlay"><div class="project-info">
+            <div class="project-category">Khảo Sát · Cải Tạo · 2025</div>
+            <div class="project-name">Trường Mầm Non Hoa Hồng 3</div>
+            <div class="project-location">TP.HCM</div>
+          </div></div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROCESS
+  ============================================================ -->
+  <section id="process">
+    <div class="container">
+      <div class="process-header reveal">
+        <div class="section-label" style="justify-content:center">
+          <div class="section-label-line"></div>
+          <span class="section-label-text">Quy Trình Làm Việc</span>
+          <div class="section-label-line"></div>
+        </div>
+        <h2 class="process-headline">Minh Bạch — <strong>Chuyên Nghiệp</strong></h2>
+      </div>
+      <div class="process-steps">
+        <!-- Step 1 -->
+        <div class="process-step active reveal">
+          <div class="process-step-header" onclick="toggleStep(this)">
+            <div class="process-step-num">01</div>
+            <div class="process-step-title">Tiếp Nhận &amp; Khảo Sát Miễn Phí</div>
+            <div class="process-step-toggle">
+              <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+            </div>
+          </div>
+          <div class="process-step-body">
+            <div class="process-step-content">
+              Đội ngũ kỹ thuật SCC đến tận nơi khảo sát không gian, đánh giá hiện trạng công trình và lắng nghe nhu cầu của khách hàng. Dịch vụ khảo sát hoàn toàn miễn phí, không phát sinh chi phí ẩn.
+            </div>
+          </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="process-step reveal stagger-1">
+          <div class="process-step-header" onclick="toggleStep(this)">
+            <div class="process-step-num">02</div>
+            <div class="process-step-title">Tư Vấn Thiết Kế &amp; Báo Giá</div>
+            <div class="process-step-toggle">
+              <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+            </div>
+          </div>
+          <div class="process-step-body">
+            <div class="process-step-content">
+              Sau khảo sát, chúng tôi cung cấp bản phác thảo thiết kế sơ bộ và bảng báo giá chi tiết, rõ ràng từng hạng mục. Khách hàng được tư vấn đầy đủ về vật liệu, phương án thi công và thời gian thực hiện.
+            </div>
+          </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="process-step reveal stagger-2">
+          <div class="process-step-header" onclick="toggleStep(this)">
+            <div class="process-step-num">03</div>
+            <div class="process-step-title">Ký Kết Hợp Đồng</div>
+            <div class="process-step-toggle">
+              <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+            </div>
+          </div>
+          <div class="process-step-body">
+            <div class="process-step-content">
+              Hợp đồng thi công được ký kết minh bạch với đầy đủ điều khoản về phạm vi công việc, tiến độ, thanh toán và chính sách bảo hành. Cam kết không phát sinh chi phí ngoài hợp đồng nếu không có thỏa thuận bổ sung.
+            </div>
+          </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="process-step reveal stagger-3">
+          <div class="process-step-header" onclick="toggleStep(this)">
+            <div class="process-step-num">04</div>
+            <div class="process-step-title">Thi Công &amp; Giám Sát</div>
+            <div class="process-step-toggle">
+              <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+            </div>
+          </div>
+          <div class="process-step-body">
+            <div class="process-step-content">
+              Đội thợ lành nghề thi công đúng tiến độ với sự giám sát chặt chẽ của kỹ sư phụ trách. Khách hàng được cập nhật tiến độ thường xuyên qua Zalo/điện thoại. Hiện trường luôn được giữ gọn gàng, an toàn.
+            </div>
+          </div>
+        </div>
+        <!-- Step 5 -->
+        <div class="process-step reveal stagger-4">
+          <div class="process-step-header" onclick="toggleStep(this)">
+            <div class="process-step-num">05</div>
+            <div class="process-step-title">Nghiệm Thu &amp; Bảo Hành 24 Tháng</div>
+            <div class="process-step-toggle">
+              <svg viewBox="0 0 14 14"><line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/></svg>
+            </div>
+          </div>
+          <div class="process-step-body">
+            <div class="process-step-content">
+              Nghiệm thu công trình cùng khách hàng theo từng hạng mục. Bàn giao hồ sơ, biên bản bảo hành với cam kết 24 tháng. Đội ngũ hỗ trợ sau bán hàng phản hồi trong vòng 24 giờ cho mọi yêu cầu bảo trì.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       WHY US
+  ============================================================ -->
+  <section id="why-us">
+    <div class="container">
+      <div class="why-header">
+        <div class="section-label reveal" style="justify-content:center">
+          <div class="section-label-line"></div>
+          <span class="section-label-text">Tại Sao Chọn SCC</span>
+          <div class="section-label-line"></div>
+        </div>
+        <h2 class="why-headline reveal">
+          Chúng Tôi Khác Biệt<br /><em>Ở Điều Này</em>
+        </h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal stagger-1">
+          <div class="why-icon">
+            <svg viewBox="0 0 56 56">
+              <circle cx="28" cy="28" r="24"/>
+              <path d="M20 28l6 6 10-12"/>
+            </svg>
+          </div>
+          <h3 class="why-title">Báo Giá Minh Bạch</h3>
+          <p class="why-desc">Mọi chi phí đều được liệt kê rõ ràng trước khi thi công. Không có khoản phát sinh bất ngờ hay chi phí ẩn — đúng như những gì đã cam kết trong hợp đồng.</p>
+        </div>
+        <div class="why-card reveal stagger-2">
+          <div class="why-icon">
+            <svg viewBox="0 0 56 56">
+              <path d="M28 8l4 12h13l-10 8 4 12-11-8-11 8 4-12-10-8h13z"/>
+            </svg>
+          </div>
+          <h3 class="why-title">Đội Ngũ Chuyên Nghiệp</h3>
+          <p class="why-desc">Kỹ sư và thợ lành nghề với nhiều năm kinh nghiệm. Mỗi dự án đều có kỹ sư giám sát chuyên trách, đảm bảo chất lượng thi công từng chi tiết nhỏ nhất.</p>
+        </div>
+        <div class="why-card reveal stagger-3">
+          <div class="why-icon">
+            <svg viewBox="0 0 56 56">
+              <rect x="10" y="14" width="36" height="28" rx="3"/>
+              <path d="M28 14v28M10 28h36"/>
+            </svg>
+          </div>
+          <h3 class="why-title">Tiến Độ Cam Kết</h3>
+          <p class="why-desc">Thời gian là vàng bạc. Chúng tôi lập kế hoạch thi công khoa học và bàn giao đúng hạn. Mọi tiến độ được cập nhật liên tục để khách hàng luôn nắm rõ.</p>
+        </div>
+        <div class="why-card reveal stagger-4">
+          <div class="why-icon">
+            <svg viewBox="0 0 56 56">
+              <path d="M28 8c-11 0-20 9-20 20s9 20 20 20 20-9 20-20S39 8 28 8z"/>
+              <path d="M28 18v10l7 7"/>
+            </svg>
+          </div>
+          <h3 class="why-title">Bảo Hành 24 Tháng</h3>
+          <p class="why-desc">Chính sách bảo hành 24 tháng toàn diện sau nghiệm thu. Mọi vấn đề phát sinh trong thời gian bảo hành đều được xử lý nhanh chóng, hoàn toàn miễn phí.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact">
+    <div class="contact-left">
+      <div class="contact-left-bg"></div>
+      <div class="contact-left-content">
+        <div class="section-label reveal-left">
+          <div class="section-label-line"></div>
+          <span class="section-label-text" style="color:var(--gold)">Liên Hệ Ngay</span>
+        </div>
+        <h2 class="contact-headline reveal-left">
+          Bắt Đầu<br />Dự Án <strong>Của Bạn</strong>
+        </h2>
+        <div class="contact-info-items reveal-left stagger-1">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Hotline</div>
+              <div class="contact-info-value">
+                <a href="tel:0379388493">0379.388.493</a> &middot;
+                <a href="tel:0914917579">0914.917.579</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Email</div>
+              <div class="contact-info-value">
+                <a href="mailto:Xaydungscc.vn@gmail.com">Xaydungscc.vn@gmail.com</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Địa Chỉ</div>
+              <div class="contact-info-value">79/4 Đường Trần Thị Vững, P.Linh Xuân,<br />TP.Thủ Đức, TP.HCM</div>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <div>
+              <div class="contact-info-label">Zalo</div>
+              <div class="contact-info-value">
+                <a href="https://zalo.me/483931491482384485" target="_blank" rel="noopener">Chat Zalo với SCC</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <h3 class="contact-form-title reveal">Gửi Yêu Cầu Tư Vấn</h3>
+      <form id="contactForm">
+        <div class="form-row">
+          <div class="form-group reveal stagger-1">
+            <label>Họ và Tên *</label>
+            <input type="text" id="from_name" name="from_name" placeholder="Nguyễn Văn A" required />
+          </div>
+          <div class="form-group reveal stagger-2">
+            <label>Số Điện Thoại *</label>
+            <input type="tel" id="phone" name="phone" placeholder="0xxx xxx xxx" required />
+          </div>
+        </div>
+        <div class="form-group reveal stagger-3">
+          <label>Email</label>
+          <input type="email" id="from_email" name="from_email" placeholder="email@example.com" />
+        </div>
+        <div class="form-group reveal stagger-4">
+          <label>Dịch Vụ Quan Tâm</label>
+          <select id="service_type" name="service_type">
+            <option value="">— Chọn dịch vụ —</option>
+            <option>Sửa chữa nhà ở</option>
+            <option>Cải tạo căn hộ</option>
+            <option>Thi công nội thất</option>
+            <option>Văn phòng / Showroom</option>
+            <option>Kho xưởng</option>
+            <option>Sân vườn cảnh quan</option>
+            <option>Tư vấn khác</option>
+          </select>
+        </div>
+        <div class="form-group reveal stagger-5">
+          <label>Nội Dung Yêu Cầu</label>
+          <textarea id="message" name="message" placeholder="Mô tả sơ bộ dự án của bạn..."></textarea>
+        </div>
+        <div class="magnetic-wrap reveal">
+          <button type="submit" class="btn-submit">
+            <span>Gửi Yêu Cầu</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+        <div id="form-message"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-top">
+        <!-- Brand -->
+        <div>
+          <div class="footer-brand-logo">SCC</div>
+          <div class="footer-brand-sub">Construction &amp; Interior</div>
+          <p class="footer-tagline">"Kiến tạo không gian sống đẹp — từng chi tiết đều có chủ ý."</p>
+          <div class="footer-socials">
+            <a href="https://zalo.me/483931491482384485" target="_blank" rel="noopener" class="footer-social-btn" aria-label="Zalo">
+              <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15H9V10h2v7zm-1-8.5a1 1 0 110-2 1 1 0 010 2zm8 8.5h-2v-3.5c0-.83-.67-1.5-1.5-1.5S13 12.67 13 13.5V17h-2v-7h2v.91A3.5 3.5 0 0118 14.5V17z"/></svg>
+            </a>
+            <a href="tel:0379388493" class="footer-social-btn" aria-label="Phone">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </a>
+            <a href="mailto:Xaydungscc.vn@gmail.com" class="footer-social-btn" aria-label="Email">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+        <!-- Services -->
+        <div>
+          <div class="footer-col-title">Dịch Vụ</div>
+          <ul class="footer-col-list">
+            <li><a href="#services">Sửa Chữa Nhà Ở</a></li>
+            <li><a href="#services">Cải Tạo Căn Hộ</a></li>
+            <li><a href="#services">Thi Công Nội Thất</a></li>
+            <li><a href="#services">Văn Phòng &amp; Showroom</a></li>
+            <li><a href="#services">Kho Xưởng</a></li>
+            <li><a href="#services">Sân Vườn Cảnh Quan</a></li>
+          </ul>
+        </div>
+        <!-- Shortcuts -->
+        <div>
+          <div class="footer-col-title">Điều Hướng</div>
+          <ul class="footer-col-list">
+            <li><a href="#about">Về Chúng Tôi</a></li>
+            <li><a href="#projects">Dự Án Tiêu Biểu</a></li>
+            <li><a href="#process">Quy Trình Làm Việc</a></li>
+            <li><a href="#why-us">Tại Sao Chọn SCC</a></li>
+            <li><a href="#contact">Liên Hệ &amp; Tư Vấn</a></li>
+          </ul>
+        </div>
+        <!-- Contact -->
+        <div>
+          <div class="footer-col-title">Thông Tin</div>
+          <ul class="footer-col-list">
+            <li><a href="tel:0379388493">0379.388.493</a></li>
+            <li><a href="tel:0914917579">0914.917.579</a></li>
+            <li><a href="mailto:Xaydungscc.vn@gmail.com">Xaydungscc.vn@gmail.com</a></li>
+            <li><a href="#">79/4 Trần Thị Vững, Linh Xuân, Thủ Đức</a></li>
+            <li><a href="#">MST: 0317712630</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2025 Công Ty TNHH Xây Dựng SCC. All rights reserved.</p>
+        <p class="footer-mst">MST: 0317712630 · TP.Thủ Đức, TP.HCM</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       FLOATING CONTACT BAR (MOBILE)
+  ============================================================ -->
+  <div id="float-bar">
+    <div class="float-bar-inner">
+      <a href="https://zalo.me/483931491482384485" target="_blank" rel="noopener" class="float-btn float-btn-zalo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Zalo
+      </a>
+      <a href="tel:0379388493" class="float-btn float-btn-call">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Gọi Ngay
+      </a>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    /* ── EmailJS init ── */
+    (function() {
+      emailjs.init({ publicKey: 'NrkuXf-iBAh3TVqVc' });
+    })();
+
+    /* ── PAGE LOADER ── */
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('loader').classList.add('hidden');
+        document.body.classList.remove('loading');
+      }, 1600);
+    });
+
+    /* ── CUSTOM CURSOR ── */
+    var dot = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+    var mouseX = 0, mouseY = 0;
+    var ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top  = mouseY + 'px';
+    });
+
+    (function ringFollow() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top  = ringY + 'px';
+      requestAnimationFrame(ringFollow);
+    })();
+
+    document.querySelectorAll('a, button, .project-card, .service-card, .why-card, .process-step-header, .about-pill, .nav-links a').forEach(function(el) {
+      el.addEventListener('mouseenter', function() { document.body.classList.add('cursor-hover'); });
+      el.addEventListener('mouseleave', function() { document.body.classList.remove('cursor-hover'); });
+    });
+
+    /* ── SCROLL PROGRESS ── */
+    var progressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', function() {
+      var scrollTop = window.scrollY || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
+
+    /* ── NAV GLASSMORPHISM ── */
+    var nav = document.getElementById('nav');
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 60) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    /* ── MOBILE MENU ── */
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    var menuOpen = false;
+
+    hamburger.addEventListener('click', function() {
+      menuOpen = !menuOpen;
+      mobileMenu.classList.toggle('open', menuOpen);
+      var spans = hamburger.querySelectorAll('span');
+      if (menuOpen) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    });
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      var spans = hamburger.querySelectorAll('span');
+      spans[0].style.transform = '';
+      spans[1].style.opacity = '';
+      spans[2].style.transform = '';
+    }
+
+    /* ── HERO PARALLAX ── */
+    var heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', function() {
+      var scrollY = window.scrollY;
+      if (scrollY < window.innerHeight * 1.5) {
+        heroBg.style.transform = 'translateY(' + scrollY * 0.35 + 'px)';
+      }
+    }, { passive: true });
+
+    /* ── INTERSECTION OBSERVER — REVEAL ── */
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+
+    /* ── SPLIT TEXT ANIMATION ── */
+    function initSplitText() {
+      document.querySelectorAll('.split-text').forEach(function(el) {
+        var html = el.innerHTML;
+        var parts = html.split(/(<br\s*\/?>|<em>[^<]*<\/em>)/gi);
+        var result = '';
+        parts.forEach(function(part) {
+          if (part.match(/^<br/i)) {
+            result += part;
+          } else if (part.match(/^<em>/i)) {
+            result += part;
+          } else {
+            var words = part.split(' ');
+            words.forEach(function(word, i) {
+              if (word.trim()) {
+                result += '<span class="split-word"><span class="split-word-inner">' + word + '</span></span>';
+                if (i < words.length - 1) result += ' ';
+              }
+            });
+          }
+        });
+        el.innerHTML = result;
+      });
+
+      var splitObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.split-text').forEach(function(el) {
+        splitObserver.observe(el);
+      });
+    }
+
+    initSplitText();
+
+    /* ── COUNTER ANIMATION ── */
+    function animateCount(el, target, duration) {
+      var start = 0;
+      var startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.floor(eased * target);
+        el.textContent = current;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = target;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    var counterObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var statNums = entry.target.querySelectorAll('[data-target]');
+          statNums.forEach(function(statWrap) {
+            var target = parseInt(statWrap.getAttribute('data-target'), 10);
+            var countEl = statWrap.querySelector('.count-num');
+            if (countEl && !statWrap.dataset.counted) {
+              statWrap.dataset.counted = 'true';
+              animateCount(countEl, target, 1800);
+            }
+          });
+        }
+      });
+    }, { threshold: 0.4 });
+
+    var aboutStats = document.querySelector('.about-stats');
+    if (aboutStats) counterObserver.observe(aboutStats);
+
+    /* ── PROCESS ACCORDION ── */
+    function toggleStep(header) {
+      var step = header.closest('.process-step');
+      var isActive = step.classList.contains('active');
+
+      document.querySelectorAll('.process-step').forEach(function(s) {
+        s.classList.remove('active');
+      });
+
+      if (!isActive) {
+        step.classList.add('active');
+      }
+    }
+
+    /* ── SERVICES HORIZONTAL DRAG SCROLL ── */
+    var track = document.getElementById('servicesTrack');
+    if (track) {
+      var isDown = false;
+      var startX;
+      var scrollLeft;
+
+      track.addEventListener('mousedown', function(e) {
+        isDown = true;
+        track.classList.add('active');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+      });
+
+      track.addEventListener('mouseleave', function() { isDown = false; });
+      track.addEventListener('mouseup', function() { isDown = false; });
+      track.addEventListener('mousemove', function(e) {
+        if (!isDown) return;
+        e.preventDefault();
+        var x = e.pageX - track.offsetLeft;
+        var walk = (x - startX) * 1.4;
+        track.scrollLeft = scrollLeft - walk;
+      });
+    }
+
+    /* ── MAGNETIC BUTTONS ── */
+    document.querySelectorAll('.magnetic-wrap').forEach(function(wrap) {
+      var btn = wrap.firstElementChild;
+
+      wrap.addEventListener('mousemove', function(e) {
+        var rect = wrap.getBoundingClientRect();
+        var cx = rect.left + rect.width / 2;
+        var cy = rect.top + rect.height / 2;
+        var dx = e.clientX - cx;
+        var dy = e.clientY - cy;
+        var strength = 0.28;
+        btn.style.transform = 'translate(' + dx * strength + 'px, ' + dy * strength + 'px)';
+      });
+
+      wrap.addEventListener('mouseleave', function() {
+        btn.style.transform = '';
+      });
+    });
+
+    /* ── CONTACT FORM (EmailJS) ── */
+    var form = document.getElementById('contactForm');
+    var formMsg = document.getElementById('form-message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var submitBtn = form.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      var originalHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span>Đang gửi...</span>';
+
+      var templateParams = {
+        from_name: document.getElementById('from_name').value,
+        phone: document.getElementById('phone').value,
+        from_email: document.getElementById('from_email').value || 'Không cung cấp',
+        service_type: document.getElementById('service_type').value || 'Không chọn',
+        message: document.getElementById('message').value || 'Không có nội dung'
+      };
+
+      emailjs.send('service_eciry1n', 'template_77m314f', templateParams)
+        .then(function() {
+          formMsg.className = 'success';
+          formMsg.textContent = 'Yêu cầu đã được gửi thành công! Chúng tôi sẽ liên hệ trong vòng 24 giờ.';
+          form.reset();
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHtml;
+          setTimeout(function() { formMsg.textContent = ''; }, 6000);
+        })
+        .catch(function(error) {
+          formMsg.className = 'error';
+          formMsg.textContent = 'Có lỗi xảy ra. Vui lòng gọi trực tiếp: 0379.388.493';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalHtml;
+          console.error('EmailJS error:', error);
+        });
+    });
+
+    /* ── SMOOTH ANCHOR SCROLL ── */
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+  <!-- FLOATING CONTACT BUTTONS -->
+  <div id="float-contact">
+    <a href="tel:0379388493" class="fcb fcb-phone" title="Gọi điện ngay" aria-label="Gọi điện">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+      <span class="fcb-label">0379.388.493</span>
+    </a>
+    <a href="https://zalo.me/483931491482384485" target="_blank" rel="noopener" class="fcb fcb-zalo" title="Chat Zalo" aria-label="Zalo">
+      <svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 2C10.06 2 2 10.06 2 20s8.06 18 18 18 18-8.06 18-18S29.94 2 20 2zm8.5 25.5c-.5.3-1.1.5-1.7.5-.6 0-1.2-.2-1.7-.5l-3.8-2.3c-.1.5-.4.9-.8 1.2-.4.3-.9.5-1.5.5H13c-1.4 0-2.5-1.1-2.5-2.5V16c0-1.4 1.1-2.5 2.5-2.5h6c.6 0 1.1.2 1.5.5.4.3.7.7.8 1.2l3.8-2.3c.5-.3 1.1-.5 1.7-.5.6 0 1.2.2 1.7.5.5.3.9.7 1.2 1.2.3.5.5 1.1.5 1.7v7.5c0 .6-.2 1.2-.5 1.7-.3.5-.7.9-1.2 1.2z"/></svg>
+      <span class="fcb-label">Chat Zalo</span>
+    </a>
+    <a href="https://facebook.com" target="_blank" rel="noopener" class="fcb fcb-facebook" title="Facebook" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      <span class="fcb-label">Facebook</span>
+    </a>
+  </div>
+</body>
+</html>
